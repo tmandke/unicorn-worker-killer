@@ -55,7 +55,7 @@ module Unicorn::WorkerKiller
       @_worker_memory_limit ||= @_worker_memory_limit_min + randomize(@_worker_memory_limit_max - @_worker_memory_limit_min + 1)
       @_worker_check_count += 1
 
-      if @_worker_check_count % @_worker_check_cycle == 0
+      if (@_worker_check_count % @_worker_check_cycle) == 0
         rss = _worker_rss()
         logger.info "#{self}: worker (pid: #{Process.pid}) using #{rss} bytes." if @_verbose
         if rss > @_worker_memory_limit
